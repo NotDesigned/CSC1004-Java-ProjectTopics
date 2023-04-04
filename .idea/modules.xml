@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/CSC1004Java.iml" filepath="$PROJECT_DIR$/.idea/CSC1004Java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/client/ChatRoomApp.iml" filepath="$PROJECT_DIR$/client/ChatRoomApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server/ChatRoomApp (1) (com.myapp.ChatRoom).iml" filepath="$PROJECT_DIR$/server/ChatRoomApp (1) (com.myapp.ChatRoom).iml" />
+      <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" />
+    </modules>
+  </component>
+</project>
