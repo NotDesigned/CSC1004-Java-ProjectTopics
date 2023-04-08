@@ -4,8 +4,8 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.myapp.ChatRoom</groupId>
-  <artifactId>ChatRoomApp</artifactId>
+  <groupId>com.myapp.ChatRoomServer</groupId>
+  <artifactId>ChatRoomServer</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
 
@@ -27,7 +27,7 @@
           <artifactId>javafx-maven-plugin</artifactId>
           <version>${javafx.maven.plugin.version}</version>
           <configuration>
-            <mainClass>ChatRoomApp</mainClass>
+            <mainClass>ChatRoomServer</mainClass>
           </configuration>
         </plugin>
       </plugins>

@@ -7,13 +7,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ChatRoomApp" />
+        <module name="ChatRoomServer" />
         <module name="sample" />
-        <module name="ChatRoomApp (1) (com.myapp.ChatRoom)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="ChatRoomApp" target="11" />
       <module name="ChatRoomApp (1) (com.myapp.ChatRoom)" target="11" />
+      <module name="ChatRoomServer" target="11" />
       <module name="sample" target="11" />
     </bytecodeTargetLevel>
   </component>
