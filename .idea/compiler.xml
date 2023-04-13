@@ -6,9 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ChatRoomApp" />
         <module name="ChatRoomServer" />
-        <module name="sample" />
+        <module name="ChatRoomApp" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

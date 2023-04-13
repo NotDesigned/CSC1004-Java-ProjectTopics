@@ -32,29 +32,26 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.myapp.client.login.LoginController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button fx:id="loginbtn" layoutX="239.0" layoutY="286.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="58.0" text="login" />
+            <Button fx:id="loginbtn" layoutX="239.0" layoutY="286.0" mnemonicParsing="false" onAction="#handleLoginButtonAction" prefHeight="23.0" prefWidth="58.0" text="login" />
             <TextField fx:id="unameinput" layoutX="233.0" layoutY="194.0" promptText="your username" />
-            <TextField fx:id="pwdinput" layoutX="234.0" layoutY="242.0" promptText="your password" />
+            <PasswordField fx:id="pwdinput" layoutX="234.0" layoutY="242.0" promptText="your password" />
             <Text layoutX="166.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" />
             <Text layoutX="167.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="password:" />
             <Button fx:id="regbtn" layoutX="323.0" layoutY="286.0" mnemonicParsing="false" text="register" />
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="239.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+            <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="199.0" layoutY="340.0" prefHeight="15.0" prefWidth="214.0" textAlignment="CENTER" textFill="#ff0000" />
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="233.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../resource/chat.png" />
-               </image>
-            </ImageView>
+                  <Image url="@../image/chat.png" />
+               </image></ImageView>
       </children>
     </AnchorPane>
   </children>
