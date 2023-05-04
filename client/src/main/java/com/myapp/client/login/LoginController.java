@@ -1,5 +1,10 @@
 package com.myapp.client.login;
 
+import com.myapp.client.chat.ChatController;
+import com.myapp.client.chat.Listener;
+import com.myapp.client.gui.ControllStage;
+import com.myapp.client.gui.Launcher;
+import com.myapp.client.gui.StageController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,7 +17,14 @@ import javafx.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LoginController implements Initializable {
+import static com.myapp.client.gui.Launcher.mainViewRes;
+import static com.myapp.client.gui.Launcher.stageController;
+
+public class LoginController implements Initializable, ControllStage {
+
+    private static final String mainViewID= "ChatInterface";
+
+    private static final String loginViewID= "LoginInterface";
     @FXML
     private Button loginbtn;
     @FXML
@@ -22,36 +34,49 @@ public class LoginController implements Initializable {
     @FXML
     private TextField unameinput;
     @FXML
+    private TextField portinput;
+    @FXML
+    private TextField hostinput;
+    @FXML
     private Label errorLabel;
+    public static ChatController ChatCon;
 
-    private static LoginController instance;
+    private static StageController myStageController;
 
-    public LoginController() {
-        instance = this;
-    }
-
-    public static LoginController getInstance() {
-        return instance;
-    }
+    public LoginController() {}
 
     @FXML
     public void handleLoginButtonAction(ActionEvent event) {
         String username = unameinput.getText();
         String password = pwdinput.getText();
-
-        if(username.equals("admin") && password.equals("1234")) {
+        int port = Integer.parseInt(portinput.getText());
+        String hostname = hostinput.getText();
+        port=2521;
+        hostname="127.0.0.1";
+        if(true||(username.equals("Adscn") && password.equals("theadscn"))||(username.equals("Bob") && password.equals("thebob")))
+        {
             errorLabel.setText("");
             System.out.println("login successful");
-            FXMLLoader fmxlLoader = new FXMLLoader(getClass().getResource("gui/ChatView.fxml"));
 
             //TODO: 进入主界面
+
+            ChatCon=(ChatController) stageController.loadStage(mainViewID,mainViewRes);
+            ChatCon.setusername(username);
+            Launcher.getController().setStage(mainViewID,loginViewID);
+            Listener listener = new Listener(hostname, port, username, ChatCon);
+            Thread x = new Thread(listener);
+            x.start();
+
         } else {
-            errorLabel.setText("username/password wrong");
+            errorLabel.setText("Username/password wrong");
             System.out.println("login failed");
         }
     }
     @Override
     public void initialize(URL url,ResourceBundle resourceBundle){
-
+    }
+    @Override
+    public void setStageController(StageController stageController){
+        this.myStageController=stageController;
     }
 }
