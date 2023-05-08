@@ -46,7 +46,7 @@
             <PasswordField fx:id="pwdinput" layoutX="234.0" layoutY="234.0" promptText="your password" />
             <Text layoutX="166.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" />
             <Text layoutX="167.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" />
-            <Button fx:id="regbtn" layoutX="320.0" layoutY="343.0" mnemonicParsing="false" text="register" />
+            <Button fx:id="regbtn" layoutX="320.0" layoutY="343.0" mnemonicParsing="false" text="register" onAction="#handleRegisterButtonAction" />
             <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="199.0" layoutY="340.0" prefHeight="15.0" prefWidth="214.0" textAlignment="CENTER" textFill="#ff0000" />
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="233.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                <image>

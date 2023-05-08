@@ -9,7 +9,6 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
-
 public class Launcher extends Application {
 
     private static Stage primaryStageObj;

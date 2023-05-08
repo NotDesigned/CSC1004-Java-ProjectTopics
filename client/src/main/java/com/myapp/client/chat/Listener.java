@@ -1,11 +1,14 @@
 package com.myapp.client.chat;
 
-import com.myapp.client.login.LoginController;
 import com.myapp.messages.*;
+import javafx.event.EventHandler;
+import javafx.stage.WindowEvent;
 
 import java.io.*;
 import java.net.Socket;
 
+import static com.myapp.client.login.LoginController.loginlock;
+import static com.myapp.client.login.LoginController.loginvalue;
 import static com.myapp.messages.MsgType.CONNECT;
 
 
@@ -15,17 +18,18 @@ public class Listener implements Runnable{
     private Socket socket;
     public String hostname;
     public int port;
-    public static String username;
+    public static String username,password;
     public ChatController controller;
     private static ObjectOutputStream oos;
     private InputStream is;
     private ObjectInputStream input;
     private OutputStream outputStream;
 
-    public Listener(String hostname, int port, String username,  ChatController controller) {
+    public Listener(String hostname, int port, String username,String password,  ChatController controller) {
         this.hostname = hostname;
         this.port = port;
         Listener.username = username;
+        Listener.password=password;
         this.controller = controller;
     }
 
@@ -42,7 +46,17 @@ public class Listener implements Runnable{
 
         try {
             System.out.println("CON+");
-            connect();
+            if(!connect()){
+                System.out.println("Login Failure");
+                loginvalue=false;
+                loginlock=false;
+                return;
+            }
+            else {
+                System.out.println("Login Success");
+                loginvalue=true;
+                loginlock=false;
+            }
             System.out.println("CON-");
             while (socket.isConnected()) {
                 Message message = null;
@@ -93,11 +107,17 @@ public class Listener implements Runnable{
         oos.writeObject(createMessage);
         oos.flush();
     }
-    public static void connect() throws IOException {
+    public boolean connect() throws IOException, ClassNotFoundException {
         Message createMessage = new Message();
         createMessage.setName(username);
         createMessage.setType(CONNECT);
-        createMessage.setMsg(HASCONNECTED);
+        createMessage.setMsg(password);
         oos.writeObject(createMessage);
+        Message rec;
+        if(socket.isConnected()) {
+            rec=(Message) input.readObject();
+        }else return false;
+        System.out.println(rec.getMsg());
+        return rec.getMsg().equals("Success");
     }
 }

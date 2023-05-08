@@ -18,14 +18,28 @@ import java.net.*;
 public class ChatRoomServer extends Application{
     static int i=0;
     Scanner scan;
+    static Scanner in;
+
     private static HashMap<String,User> Userlist=new HashMap<>();
     /*
         Storage Online Users.
     */
     private static Vector<User> AllUser=new Vector<>();
     private static HashSet<ObjectOutputStream>writers=new HashSet<>();
-    public void run(){
+    private static FileWriter fwriter;
+    private static File file=new File("database.txt");
+
+    public void run() {
         System.out.println("Input the port:");
+        try {
+            in = new Scanner(file, "UTF-8");
+            fwriter = new FileWriter(file,true);
+        }
+        catch (FileNotFoundException e){
+            e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         scan=new Scanner(System.in);
         int port=scan.nextInt();
         try (ServerSocket ss = new ServerSocket(port)) {
@@ -44,11 +58,11 @@ public class ChatRoomServer extends Application{
 
                 Thread t = new Thread(mtc);
 
-                System.out.println("Adding this client to active client list");
+//                System.out.println("Adding this client to active client list");
 
                 t.start();
 
-                System.out.printf("Number: %d\n", ++i);
+//                System.out.printf("Number: %d\n", ++i);
 
             }
         } catch (IOException e) {
@@ -87,9 +101,40 @@ public class ChatRoomServer extends Application{
                 ois = new ObjectInputStream(is);
                 oos = new ObjectOutputStream(os);
                 // user send the basic information.
-                Message first=(Message)ois.readObject();
-                UserInitialize(first);
+                Message first=(Message)ois.readObject(),reply=new Message();
+                if(first.getType().equals(MsgType.REGISTER)){
+                    String username=first.getName(),password=first.getMsg();
+                    if(!queryUser(username)){
+                        createUser(username,password);
+                        reply.setMsg("Success");
+                    }
+                    else reply.setMsg("Failure");
+                    oos.writeObject(reply);
+                    try {
+                        is.close();
+                        os.close();
+                        ois.close();
+                        oos.close();
+                    }
+                    catch (IOException e){
+                        System.out.print("IOException in closing" + username);
+                        e.printStackTrace();
+                    }
+                    return;
+                }
                 writers.add(oos);
+                UserInitialize(first);
+                if(checkUser(first.getName(),first.getMsg())){
+                    reply.setMsg("Success");
+                    oos.writeObject(reply);
+                }
+                else{
+                    reply.setMsg("Failure");
+                    oos.writeObject(reply);
+                    CloseConnection();
+                    return;
+                }
+
                 System.out.println("Initialized finished");
                 Acknowledgelogin();
                 while(s.isConnected()){
@@ -107,6 +152,9 @@ public class ChatRoomServer extends Application{
                             break;
                         case CONNECT:
                             Acknowledgelogin();
+                            break;
+                        case DISCONNECT:
+                            CloseConnection();
                             break;
                     }
                 }
@@ -179,6 +227,39 @@ public class ChatRoomServer extends Application{
             }catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        private boolean queryUser(String username) throws FileNotFoundException {
+            in.close();
+            in=new Scanner(file);
+            while(true){
+                if(in.hasNext()){
+                    String user,pwd;
+                    user=in.nextLine();
+                    pwd=in.nextLine();
+                    if(user.equals(username))return true;
+                }
+                else break;
+            }
+            return false;
+        }
+        private void createUser(String username,String password) throws IOException {
+            fwriter.write(username+"\n");
+            fwriter.write(password+"\n");
+            fwriter.flush();
+        }
+        private boolean checkUser(String username,String password) throws FileNotFoundException {
+            in.close();
+            in=new Scanner(file);
+            while(true){
+                if(in.hasNext()){
+                    String user,pwd;
+                    user=in.nextLine();
+                    pwd=in.nextLine();
+                    if(user.equals(username)&&pwd.equals(password))return true;
+                }
+                else break;
+            }
+            return false;
         }
     }
 }
